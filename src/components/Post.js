@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from '../withRouter'
-
+import { withRouter } from "../withRouter";
+import { deletePost } from "../actions/postActions";
 class Post extends Component {
-    constructor(props){
-        super(props);
-     
-        this.state = {
-          resdate : new Date().toISOString().substr(0,10),
-          props: props
-        }
-      }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      resdate: new Date().toISOString().substr(0, 10),
+    };
+  }
+
+  handleClick = () => {
+    this.props.deletePost(this.props.post.id);
+    console.log(this.props);
+  };
 
   render() {
-  
-   
     const post = this.props.post ? (
       <div className="post">
         <h4 className="center">{this.props.post.title}</h4>
@@ -34,13 +36,19 @@ class Post extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   let id = ownProps.params.post_id;
- 
-  
+
   return {
     post: state.posts.find((post) => post.id === parseInt(id)),
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Post));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deletePost: (id) => {
+      dispatch(deletePost(id));
+    },
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));
