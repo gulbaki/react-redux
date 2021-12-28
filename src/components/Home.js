@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Kodsozluk from '../download.jpeg'
+
 
 class Home extends Component {
   render(){
+
+   
     const { posts } = this.props
     const postList = posts.length ? (
       posts.map(post => {
         return (
           <div className="post card" key={post.id}>
-            <img src='#' alt="A Pokeball" />
+            <img src={Kodsozluk} alt="A Pokeball" />
             <div className="card-content">
-              <Link to={'/' + post.id}>
+              <Link to={'/post/' + post.id}>
                 <span className="card-title red-text">{post.title}</span>
               </Link>
               <p>{post.body}</p>
@@ -34,7 +38,7 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.posts
   }
